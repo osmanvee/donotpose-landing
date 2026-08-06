@@ -37,44 +37,29 @@ a {
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: space-between;
   padding: 28px 34px;
 }
 
-.wordmark {
+.site-header .logo {
+  display: block;
+  width: 140px;
+}
+
+.site-header .logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.logo {
   margin: 0;
-  font-family: var(--serif);
-  font-size: clamp(4.25rem, 12vw, 10rem);
-  font-weight: 400;
-  letter-spacing: -0.075em;
-  line-height: 0.82;
+  width: min(72vw, 520px);
 }
 
-.wordmark sup {
-  position: relative;
-  top: -0.4em;
-  margin-left: 0.55em;
-  font-family: var(--sans);
-  font-size: 0.065em;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  vertical-align: super;
-}
-
-.wordmark--small {
-  font-size: 1.7rem;
-  letter-spacing: -0.06em;
-}
-
-.wordmark--small sup {
-  font-size: 0.23em;
-}
-
-.issue {
-  color: var(--muted);
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.logo img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .hero {
@@ -82,7 +67,7 @@ a {
   display: grid;
   min-height: 100svh;
   place-items: center;
-  padding: 120px 24px 80px;
+  padding: 80px 24px 80px;
 }
 
 .hero__content {
@@ -93,11 +78,21 @@ a {
 }
 
 .manifesto {
-  max-width: 490px;
-  margin: 38px auto 24px;
+  max-width: 420px;
+  margin: 36px auto 24px;
   color: var(--muted);
   font-size: clamp(0.82rem, 1.2vw, 0.95rem);
   line-height: 1.65;
+}
+
+.manifesto a {
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  transition: border-color 180ms ease;
+}
+
+.manifesto a:hover {
+  border-color: var(--ink);
 }
 
 .instagram {
@@ -146,55 +141,27 @@ a {
 }
 
 .stories {
-  padding: 110px 34px 140px;
+  padding: 80px 34px 120px;
   border-top: 1px solid var(--line);
-}
-
-.section-heading {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  align-items: end;
-  margin-bottom: 55px;
-}
-
-.section-heading p,
-.story__meta > p:first-child {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.62rem;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
-}
-
-.section-heading h2 {
-  margin: 0;
-  font-family: var(--serif);
-  font-size: clamp(3rem, 7vw, 6.5rem);
-  font-weight: 400;
-  letter-spacing: -0.045em;
-  line-height: 0.9;
 }
 
 .story-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 80px 22px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px 28px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.story--featured {
-  grid-column: 1 / -1;
+.story__link {
+  display: block;
 }
 
 .story__image {
-  position: relative;
   display: block;
   overflow: hidden;
   background: #1f1f1f;
-  aspect-ratio: 4 / 3;
-}
-
-.story--featured .story__image {
-  aspect-ratio: 16 / 8;
+  aspect-ratio: 4 / 5;
 }
 
 .story__image img {
@@ -202,65 +169,35 @@ a {
   height: 100%;
   filter: grayscale(100%);
   object-fit: cover;
-  opacity: 0.8;
+  opacity: 0.85;
   transition: filter 500ms ease, opacity 500ms ease, transform 700ms ease;
 }
 
-.story__image:hover img {
-  filter: grayscale(15%);
+.story__link:hover .story__image img {
+  filter: grayscale(20%);
   opacity: 1;
   transform: scale(1.015);
 }
 
-.story__number {
-  position: absolute;
-  top: 15px;
-  right: 16px;
-  display: grid;
-  width: 38px;
-  height: 38px;
-  color: #1d1d1d;
-  background: var(--ink);
-  border-radius: 50%;
-  font-size: 0.58rem;
-  place-items: center;
-}
-
 .story__meta {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 12px;
-  padding-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 14px;
 }
 
-.story__meta h3 {
-  margin: 0;
+.story__title {
   font-family: var(--serif);
-  font-size: clamp(1.7rem, 3.2vw, 3.25rem);
-  font-weight: 400;
-  letter-spacing: -0.035em;
-  line-height: 0.95;
+  font-size: 1.45rem;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
-.story__meta h3 a {
-  background-image: linear-gradient(var(--ink), var(--ink));
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  background-size: 0 1px;
-  transition: background-size 250ms ease;
-}
-
-.story__meta h3 a:hover {
-  background-size: 100% 1px;
-}
-
-.story__summary {
-  grid-column: 2;
-  max-width: 380px;
-  margin: 10px 0 0;
+.story__profession {
   color: var(--muted);
-  font-size: 0.78rem;
-  line-height: 1.55;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 footer {
@@ -281,8 +218,12 @@ footer {
   padding: 140px 34px 100px;
 }
 
+.piece__intro {
+  max-width: 640px;
+}
+
 .piece__eyebrow {
-  margin: 0 0 22px;
+  margin: 0 0 18px;
   color: var(--muted);
   font-size: 0.62rem;
   letter-spacing: 0.11em;
@@ -292,10 +233,53 @@ footer {
 .piece__title {
   margin: 0;
   font-family: var(--serif);
-  font-size: clamp(2.8rem, 8vw, 5.5rem);
+  font-size: clamp(3.2rem, 9vw, 6rem);
   font-weight: 400;
   letter-spacing: -0.05em;
-  line-height: 0.92;
+  line-height: 0.9;
+}
+
+.piece__role {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.piece__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.piece__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+}
+
+.piece__action:hover {
+  color: #1d1d1d;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.piece__action svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  flex-shrink: 0;
 }
 
 .piece__lede {
@@ -349,6 +333,12 @@ footer {
   border-color: var(--ink);
 }
 
+@media (max-width: 900px) {
+  .story-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 700px) {
   .site-header,
   .scroll-cue {
@@ -360,57 +350,26 @@ footer {
     padding: 22px 20px;
   }
 
-  .issue {
-    display: none;
+  .site-header .logo {
+    width: 110px;
   }
 
-  .wordmark {
-    font-size: clamp(3.8rem, 20vw, 7rem);
+  .logo {
+    width: min(82vw, 360px);
   }
 
   .manifesto {
-    max-width: 330px;
-    margin-top: 30px;
+    max-width: 320px;
+    margin-top: 28px;
   }
 
   .stories {
-    padding: 80px 20px 100px;
-  }
-
-  .section-heading {
-    display: block;
-    margin-bottom: 34px;
-  }
-
-  .section-heading p {
-    margin-bottom: 18px;
+    padding: 64px 20px 90px;
   }
 
   .story-grid {
-    display: block;
-  }
-
-  .story {
-    margin-bottom: 64px;
-  }
-
-  .story--featured .story__image,
-  .story__image {
-    aspect-ratio: 4 / 5;
-  }
-
-  .story__meta {
-    display: block;
-    padding-top: 14px;
-  }
-
-  .story__meta h3 {
-    margin-top: 10px;
-    font-size: 2rem;
-  }
-
-  .story__summary {
-    margin-top: 13px;
+    grid-template-columns: 1fr;
+    gap: 40px;
   }
 
   .piece {
@@ -418,8 +377,6 @@ footer {
   }
 
   footer {
-    gap: 16px;
-    flex-direction: column;
     margin: 0 20px;
   }
 }

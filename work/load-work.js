@@ -6,43 +6,32 @@
 
   grid.innerHTML = pieces
     .map(function (piece) {
-      var href = "work/" + piece.slug + "/";
-      var meta =
-        piece.type + (piece.duration ? " · " + piece.duration : "");
-      var summary = piece.summary
-        ? '<p class="story__summary">' + piece.summary + "</p>"
-        : "";
-      var featuredClass = piece.featured ? " story--featured" : "";
+      var href = "work/" + piece.slug + "/index.html";
+      var title = piece.number + ". " + piece.name;
 
       return (
-        '<article class="story' +
-        featuredClass +
-        '">' +
-        '<a class="story__image" href="' +
+        '<article class="story">' +
+        '<a class="story__link" href="' +
         href +
-        '" aria-label="Read ' +
-        piece.title +
+        '" aria-label="' +
+        title +
         '">' +
+        '<span class="story__image">' +
         '<img src="' +
         piece.image +
         '" alt="' +
-        piece.alt +
+        (piece.alt || piece.name) +
         '" />' +
-        '<span class="story__number">' +
-        piece.number +
+        "</span>" +
+        '<span class="story__meta">' +
+        '<span class="story__title">' +
+        title +
+        "</span>" +
+        '<span class="story__profession">' +
+        piece.profession +
+        "</span>" +
         "</span>" +
         "</a>" +
-        '<div class="story__meta">' +
-        "<p>" +
-        meta +
-        "</p>" +
-        "<h3><a href=\"" +
-        href +
-        '">' +
-        piece.title +
-        "</a></h3>" +
-        summary +
-        "</div>" +
         "</article>"
       );
     })

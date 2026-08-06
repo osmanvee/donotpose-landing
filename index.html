@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="DoNotPose — authentic stories, raw moments, and independent documentary work."
+      content="DoNotPose — unposed street interviews showcasing local artists and their work."
     />
-    <title>DoNotPose™ — Stories without staging</title>
+    <title>DoNotPose™</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,27 +17,26 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="site-header">
-      <a class="wordmark wordmark--small" href="./" aria-label="DoNotPose home">
-        DoNotPose<sup>TM</sup>
-      </a>
-      <a
-        class="issue"
-        href="https://www.instagram.com/osmanwarsi/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        Independent publication by Osman Warsi
-      </a>
-    </header>
-
     <main>
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero__content">
-          <h1 class="wordmark" id="hero-title">DoNotPose<sup>TM</sup></h1>
+          <h1 class="logo" id="hero-title">
+            <img
+              src="assets/donotpose-logo-white.svg"
+              alt="DoNotPose"
+              width="801"
+              height="183"
+            />
+          </h1>
           <p class="manifesto">
-            A living archive of people, places, and the moments in between.
-            Nothing staged. Nothing polished.
+            A series of unposed street interviews, showcasing local artists and
+            their work, by
+            <a
+              href="https://www.instagram.com/osmanwarsi/"
+              target="_blank"
+              rel="noreferrer"
+              >Osman</a
+            >.
           </p>
           <a
             class="instagram"
@@ -56,30 +55,18 @@
         </div>
 
         <a class="scroll-cue" href="#stories">
-          <span>Latest stories</span>
+          <span>Interviews</span>
           <span aria-hidden="true">↓</span>
         </a>
       </section>
 
-      <section class="stories" id="stories" aria-labelledby="stories-heading">
-        <div class="section-heading">
-          <p>Field notes / films / conversations</p>
-          <h2 id="stories-heading">Recent work</h2>
-        </div>
-
+      <section class="stories" id="stories" aria-label="Interviews">
         <div class="story-grid" id="story-grid"></div>
       </section>
     </main>
 
     <footer>
       <span>DoNotPose™</span>
-      <a
-        href="https://www.instagram.com/osmanwarsi/"
-        target="_blank"
-        rel="noreferrer"
-      >
-        @osmanwarsi
-      </a>
     </footer>
 
     <script src="work/pieces.js"></script>
