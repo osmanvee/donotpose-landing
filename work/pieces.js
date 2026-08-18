@@ -20,4 +20,12 @@ window.DONOTPOSE_PIECES = [
     image: "work/xavier/assets/xavier-thumbnail.png",
     alt: "Xavier",
   },
+  {
+    slug: "bernie",
+    number: "2",
+    name: "Bernie",
+    profession: "Gardener, landscape artist, musician, filmmaker",
+    image: "work/bernie/assets/bernie-thumb.png",
+    alt: "Bernie",
+  },
 ];
