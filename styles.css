@@ -67,10 +67,42 @@ a {
   display: grid;
   min-height: 100svh;
   place-items: center;
+  overflow: hidden;
   padding: 80px 24px 80px;
+  background: #1a1a1a;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: grayscale(55%);
+}
+
+.hero__gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(41, 41, 41, 0.42) 0%,
+      rgba(41, 41, 41, 0.72) 62%,
+      rgba(41, 41, 41, 0.92) 100%
+    ),
+    linear-gradient(
+      to top,
+      var(--ground) 0%,
+      rgba(41, 41, 41, 0.55) 22%,
+      transparent 48%
+    );
 }
 
 .hero__content {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -83,6 +115,10 @@ a {
   color: var(--muted);
   font-size: clamp(0.82rem, 1.2vw, 0.95rem);
   line-height: 1.65;
+}
+
+.hero .manifesto {
+  color: rgba(240, 238, 233, 0.86);
 }
 
 .manifesto a {
@@ -127,6 +163,7 @@ a {
 
 .scroll-cue {
   position: absolute;
+  z-index: 1;
   right: 34px;
   bottom: 30px;
   left: 34px;
@@ -193,6 +230,7 @@ a {
   line-height: 1.1;
 }
 
+.story__date,
 .story__profession {
   color: var(--muted);
   font-size: 0.68rem;

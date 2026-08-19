@@ -24,6 +24,9 @@
         '" />' +
         "</span>" +
         '<span class="story__meta">' +
+        (piece.date
+          ? '<span class="story__date">' + piece.date + "</span>"
+          : "") +
         '<span class="story__title">' +
         title +
         "</span>" +
