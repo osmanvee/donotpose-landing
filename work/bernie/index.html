@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>2. Bernie — DoNotPose™</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,8 +25,14 @@
       </a>
     </header>
 
-    <main class="piece">
-      <div class="piece__intro">
+    <section class="piece-banner">
+      <img
+        class="piece-banner__image"
+        src="./assets/bernie-thumb.png"
+        alt=""
+      />
+      <div class="piece-banner__gradient" aria-hidden="true"></div>
+      <div class="piece-banner__content">
         <p class="piece__eyebrow">Interview 02</p>
         <h1 class="piece__title">Bernie</h1>
         <p class="piece__role">
@@ -63,16 +70,13 @@
           </a>
         </div>
       </div>
+    </section>
 
-      <figure class="piece__hero">
-        <img src="./assets/bernie-thumb.png" alt="Bernie" />
-      </figure>
-
+    <main class="piece">
       <div class="piece__body">
         <p>
           I met Bernie in the heart of Mile-End, a neighbourhood in Montreal known for its art scene.
           Bernie is a life-lover, tree-hugger, and a bit of a rebel. We discussed his life, his work, and his philosophy.
-
         </p>
       </div>
 

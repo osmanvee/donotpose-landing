@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>1. Xavier — DoNotPose™</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,8 +25,14 @@
       </a>
     </header>
 
-    <main class="piece">
-      <div class="piece__intro">
+    <section class="piece-banner">
+      <img
+        class="piece-banner__image"
+        src="./assets/xavier-thumbnail.png"
+        alt=""
+      />
+      <div class="piece-banner__gradient" aria-hidden="true"></div>
+      <div class="piece-banner__content">
         <p class="piece__eyebrow">Interview 01</p>
         <h1 class="piece__title">Xavier</h1>
         <p class="piece__role">Motion and dance photographer</p>
@@ -61,10 +68,18 @@
           </a>
         </div>
       </div>
+    </section>
 
-      <figure class="piece__hero">
-        <img src="./assets/xavier-thumbnail.png" alt="Xavier" />
-      </figure>
+    <main class="piece">
+      <div class="piece__video" data-youtube="clFGCgiy1Po">
+        <iframe
+          src="https://www.youtube.com/embed/clFGCgiy1Po?rel=0"
+          title="Xavier — DoNotPose interview"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
 
       <div class="piece__body">
         <p>
@@ -73,8 +88,8 @@
           kick off this series with him, mainly because I had never really met
           many motion photographers, and I was curious.
 
-          I followed him around and observed his way of taking photos. He is super humble and emphasizes on 
-          how much he loves the art of dance. Through photography he stays connected to motion and the dance community. 
+          I followed him around and observed his way of taking photos. He is super humble and emphasizes on
+          how much he loves the art of dance. Through photography he stays connected to motion and the dance community.
         </p>
       </div>
 
@@ -86,5 +101,21 @@
     <footer>
       <span>DoNotPose™</span>
     </footer>
+
+    <script>
+      (function () {
+        if (location.protocol !== "file:") return;
+        var wrap = document.querySelector(".piece__video[data-youtube]");
+        if (!wrap) return;
+        var id = wrap.getAttribute("data-youtube");
+        wrap.innerHTML =
+          '<a class="piece__video-open" href="https://www.youtube.com/watch?v=' +
+          id +
+          '" target="_blank" rel="noreferrer">' +
+          '<img src="./assets/xavier-thumbnail.png" alt="" />' +
+          "<span>Watch on YouTube</span>" +
+          "</a>";
+      })();
+    </script>
   </body>
 </html>
