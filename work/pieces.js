@@ -35,7 +35,7 @@ window.DONOTPOSE_PIECES = [
     slug: "victor",
     number: "3",
     name: "Victor",
-    date: "August 7 2026",
+    date: "August 29 2026",
     profession: "Film-only photographer",
     image: "work/victor/assets/victor-mora-thumbnail-opt.jpg",
     alt: "Victor",
