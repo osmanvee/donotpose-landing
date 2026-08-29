@@ -21,7 +21,7 @@
         piece.image +
         '" alt="' +
         (piece.alt || piece.name) +
-        '" />' +
+        '" loading="lazy" decoding="async" />' +
         "</span>" +
         '<span class="story__meta">' +
         (piece.date

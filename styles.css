@@ -37,7 +37,33 @@ a {
   display: flex;
   width: 100%;
   align-items: center;
+  justify-content: space-between;
   padding: 28px 34px;
+}
+
+.site-header--home {
+  justify-content: flex-end;
+}
+
+.contact-btn {
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+}
+
+.contact-btn:hover {
+  color: #1d1d1d;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.hero .contact-btn {
+  background: rgba(41, 41, 41, 0.42);
+  backdrop-filter: blur(8px);
 }
 
 .site-header .logo {

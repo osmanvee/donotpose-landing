@@ -19,7 +19,7 @@ window.DONOTPOSE_PIECES = [
     name: "Xavier",
     date: "August 6 2026",
     profession: "Motion Photographer",
-    image: "work/xavier/assets/xavier-thumbnail.png",
+    image: "work/xavier/assets/xavier-thumbnail-opt.jpg",
     alt: "Xavier",
   },
   {
@@ -28,7 +28,16 @@ window.DONOTPOSE_PIECES = [
     name: "Bernie",
     date: "August 18 2026",
     profession: "Gardener, landscape artist, musician, filmmaker",
-    image: "work/bernie/assets/bernie-thumb.png",
+    image: "work/bernie/assets/bernie-thumb-opt.jpg",
     alt: "Bernie",
+  },
+  {
+    slug: "victor",
+    number: "3",
+    name: "Victor",
+    date: "August 7 2026",
+    profession: "Film-only photographer",
+    image: "work/victor/assets/victor-mora-thumbnail-opt.jpg",
+    alt: "Victor",
   },
 ];
