@@ -88,6 +88,57 @@ a {
   height: auto;
 }
 
+.logo--animated {
+  opacity: 0;
+  animation: logoReveal 1.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.logo--animated img {
+  animation: logoSettle 7s ease-in-out 1.3s infinite;
+}
+
+@keyframes logoReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes logoSettle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.hero__cta {
+  padding: 14px 24px;
+  gap: 10px;
+  border: 1px solid var(--line);
+  background: rgba(41, 41, 41, 0.42);
+  backdrop-filter: blur(8px);
+}
+
+.instagram.hero__cta {
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero__cta:hover {
+  color: #1d1d1d;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
 .hero {
   position: relative;
   display: grid;
@@ -106,6 +157,18 @@ a {
   object-fit: cover;
   object-position: center;
   filter: grayscale(55%);
+  transform: scale(1);
+  animation: heroBgDrift 28s ease-out forwards;
+}
+
+@keyframes heroBgDrift {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.05);
+  }
 }
 
 .hero__gradient {
@@ -696,6 +759,14 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .hero__bg,
+  .logo--animated,
+  .logo--animated img {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   *,
