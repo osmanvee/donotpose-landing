@@ -1,15 +1,12 @@
 /**
- * Google Apps Script — paste into script.google.com
+ * Google Apps Script — bound to your analytics Google Sheet
  *
- * Setup:
- * 1. New Google Sheet (name a tab "Events")
- * 2. Extensions → Apps Script → paste this file
- * 3. Set DASHBOARD_KEY below to match analytics/config.js
- * 4. Deploy → New deployment → Web app
+ * 1. Set DASHBOARD_KEY to a long random secret (NOT in GitHub)
+ * 2. Deploy → New deployment → Web app
  *    - Execute as: Me
- *    - Who has access: Anyone   ← required, not "Only myself"
- * 5. Copy the NEW Web App URL into analytics/config.js → endpoint
- *    (URL changes every new deployment — update config each time)
+ *    - Who has access: Anyone
+ * 3. Paste Web App URL into analytics/config.js → endpoint only
+ * 4. Bookmark: analytics/dashboard.html?key=YOUR_SECRET
  */
 
 var DASHBOARD_KEY = "donotpose";
@@ -77,7 +74,7 @@ function doGet(e) {
       referrer: rows[i][4],
       tag: rows[i][5],
       visitorId: rows[i][6],
-      meta: rows[i][7],
+      meta: parseMeta_(rows[i][7]),
     });
   }
 
@@ -88,6 +85,16 @@ function doGet(e) {
   });
 }
 
+function parseMeta_(raw) {
+  if (!raw) return {};
+  if (typeof raw === "object") return raw;
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    return {};
+  }
+}
+
 function emptyStats_() {
   return {
     totalViews: 0,
@@ -95,6 +102,8 @@ function emptyStats_() {
     byTag: {},
     byPath: {},
     byReferrer: {},
+    byCountry: {},
+    byCity: {},
   };
 }
 
@@ -106,14 +115,27 @@ function buildStats_(events) {
   var byTag = {};
   var byPath = {};
   var byReferrer = {};
+  var byCountry = {};
+  var byCity = {};
 
   views.forEach(function (ev) {
     if (ev.visitorId) visitors[ev.visitorId] = true;
-    var tag = ev.tag || "(direct)";
+
+    var tag = ev.tag || "(direct / no tag)";
     byTag[tag] = (byTag[tag] || 0) + 1;
     byPath[ev.path || "(unknown)"] = (byPath[ev.path || "(unknown)"] || 0) + 1;
-    var ref = ev.referrer ? shortenRef_(ev.referrer) : "(none)";
+
+    var ref = ev.referrer ? shortenRef_(ev.referrer) : "(typed / direct)";
     byReferrer[ref] = (byReferrer[ref] || 0) + 1;
+
+    var meta = ev.meta || {};
+    var country = meta.country || "(unknown country)";
+    var city = meta.city || "";
+    byCountry[country] = (byCountry[country] || 0) + 1;
+    if (city) {
+      var cityLabel = city + ", " + (meta.country || "?");
+      byCity[cityLabel] = (byCity[cityLabel] || 0) + 1;
+    }
   });
 
   return {
@@ -122,6 +144,8 @@ function buildStats_(events) {
     byTag: byTag,
     byPath: byPath,
     byReferrer: byReferrer,
+    byCountry: byCountry,
+    byCity: byCity,
   };
 }
 

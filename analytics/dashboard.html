@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
     <title>Analytics — DoNotPose™</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -248,18 +249,34 @@
         </div>
 
         <div class="dash__block">
+          <h2>By country</h2>
+          <div class="bar-list" id="by-country"></div>
+        </div>
+
+        <div class="dash__block">
+          <h2>By city</h2>
+          <div class="bar-list" id="by-city"></div>
+        </div>
+
+        <div class="dash__block">
+          <h2>By referrer</h2>
+          <p class="dash__sub" style="margin: -8px 0 16px">
+            Site they came from (Instagram, Google, etc.)
+          </p>
+          <div class="bar-list" id="by-ref"></div>
+        </div>
+
+        <div class="dash__block">
           <h2>By tag</h2>
+          <p class="dash__sub" style="margin: -8px 0 16px">
+            Your tracked links (?tag=instagram)
+          </p>
           <div class="bar-list" id="by-tag"></div>
         </div>
 
         <div class="dash__block">
           <h2>By page</h2>
           <div class="bar-list" id="by-path"></div>
-        </div>
-
-        <div class="dash__block">
-          <h2>By referrer</h2>
-          <div class="bar-list" id="by-ref"></div>
         </div>
 
         <div class="dash__block">
@@ -339,7 +356,7 @@
           if (!data || data.error) {
             showSetup(
               "<p><strong>Could not load stats.</strong></p>" +
-                "<p>Check that <code>DASHBOARD_KEY</code> in Google Apps Script matches <code>dashboardKey</code> in <code>config.js</code>.</p>",
+                "<p>Check that <code>DASHBOARD_KEY</code> in Google Apps Script matches the <code>?key=</code> in your bookmarked URL.</p>",
               true
             );
             return;
@@ -352,6 +369,8 @@
             byTag: {},
             byPath: {},
             byReferrer: {},
+            byCountry: {},
+            byCity: {},
           };
 
           document.getElementById("stat-views").textContent = stats.totalViews;
@@ -360,19 +379,26 @@
 
           var tagged = 0;
           Object.keys(stats.byTag || {}).forEach(function (t) {
-            if (t !== "(direct)") tagged += stats.byTag[t];
+            if (t.indexOf("direct") === -1) tagged += stats.byTag[t];
           });
           document.getElementById("stat-tagged").textContent = tagged;
 
+          renderBars(document.getElementById("by-country"), stats.byCountry);
+          renderBars(document.getElementById("by-city"), stats.byCity);
+          renderBars(document.getElementById("by-ref"), stats.byReferrer);
           renderBars(document.getElementById("by-tag"), stats.byTag);
           renderBars(document.getElementById("by-path"), stats.byPath);
-          renderBars(document.getElementById("by-ref"), stats.byReferrer);
 
           var events = data.events || [];
           document.getElementById("events").innerHTML = events.length
             ? events
                 .slice(0, 30)
                 .map(function (ev) {
+                  var meta = ev.meta || {};
+                  var loc =
+                    meta.city && meta.country
+                      ? meta.city + ", " + meta.country
+                      : meta.country || "";
                   return (
                     '<div class="event-row">' +
                     "<span>" +
@@ -386,7 +412,12 @@
                     "<span><strong>" +
                     (ev.path || ev.page) +
                     "</strong>" +
+                    (loc ? " · " + loc : "") +
                     (ev.tag ? " · tag: " + ev.tag : "") +
+                    (ev.referrer
+                      ? " · from: " +
+                        ev.referrer.replace(/^https?:\/\//, "").slice(0, 40)
+                      : "") +
                     "</span>" +
                     "</div>"
                   );
@@ -425,12 +456,13 @@
           return;
         }
 
-        if (key !== cfg.dashboardKey) {
+        if (!key) {
           showSetup(
-            "<p><strong>Dashboard key required.</strong></p>" +
-              "<p>Open this page as <code>analytics/dashboard.html?key=" +
-              (cfg.dashboardKey || "your-key") +
-              "</code></p>",
+            "<p><strong>Private dashboard.</strong></p>" +
+              "<p>Add your secret key to the URL — bookmark this page:</p>" +
+              "<p><code>analytics/dashboard.html?key=YOUR_SECRET</code></p>" +
+              "<p>The key lives only in Google Apps Script (<code>DASHBOARD_KEY</code>), not on GitHub.</p>" +
+              "<p><strong>Change your key now</strong> if you previously committed <code>donotpose</code> to Git — pick a long random string in Apps Script and redeploy.</p>",
             true
           );
           return;

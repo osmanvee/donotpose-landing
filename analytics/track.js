@@ -2,12 +2,7 @@
   var cfg = window.DONOTPOSE_ANALYTICS || {};
   var STORAGE_KEY = "donotpose_vid";
   var TAG_KEY = "donotpose_tag";
-
-  function basePath() {
-    var script = document.currentScript;
-    if (!script || !script.src) return "analytics/";
-    return script.src.replace(/track\.js(\?.*)?$/, "");
-  }
+  var GEO_KEY = "donotpose_geo";
 
   function visitorId() {
     try {
@@ -51,11 +46,21 @@
     }
   }
 
+  function cachedGeo() {
+    try {
+      var raw = sessionStorage.getItem(GEO_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function pagePath() {
     return window.location.pathname.replace(/^\//, "") || "index.html";
   }
 
   function send(eventName, meta) {
+    var geo = cachedGeo() || {};
     var payload = {
       event: eventName,
       page: document.title,
@@ -64,7 +69,7 @@
       tag: activeTag(),
       visitorId: visitorId(),
       ts: new Date().toISOString(),
-      meta: meta || {},
+      meta: Object.assign({ country: geo.country || "", city: geo.city || "" }, meta || {}),
     };
 
     if (!cfg.endpoint) {
@@ -101,7 +106,33 @@
     send("click", { href: href, label: label });
   }
 
-  send("pageview");
+  function sendPageview() {
+    var geo = cachedGeo();
+    if (geo) {
+      send("pageview");
+      return;
+    }
+
+    fetch("https://ipapi.co/json/")
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (g) {
+        var location = {
+          country: g.country_name || "",
+          city: g.city || "",
+        };
+        try {
+          sessionStorage.setItem(GEO_KEY, JSON.stringify(location));
+        } catch (e) {}
+        send("pageview");
+      })
+      .catch(function () {
+        send("pageview");
+      });
+  }
+
+  sendPageview();
 
   document.addEventListener(
     "click",
