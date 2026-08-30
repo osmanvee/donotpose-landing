@@ -7,8 +7,9 @@
  * 3. Set DASHBOARD_KEY below to match analytics/config.js
  * 4. Deploy → New deployment → Web app
  *    - Execute as: Me
- *    - Who has access: Anyone
- * 5. Copy the Web App URL into analytics/config.js → endpoint
+ *    - Who has access: Anyone   ← required, not "Only myself"
+ * 5. Copy the NEW Web App URL into analytics/config.js → endpoint
+ *    (URL changes every new deployment — update config each time)
  */
 
 var DASHBOARD_KEY = "donotpose";

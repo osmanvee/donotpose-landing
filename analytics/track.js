@@ -75,9 +75,10 @@
     }
 
     var body = JSON.stringify(payload);
+    var blob = new Blob([body], { type: "text/plain;charset=utf-8" });
+
     try {
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(cfg.endpoint, body);
+      if (navigator.sendBeacon && navigator.sendBeacon(cfg.endpoint, blob)) {
         return;
       }
     } catch (e) {}
@@ -85,7 +86,7 @@
     fetch(cfg.endpoint, {
       method: "POST",
       mode: "no-cors",
-      headers: { "Content-Type": "text/plain" },
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: body,
       keepalive: true,
     }).catch(function () {});

@@ -155,6 +155,14 @@
         color: var(--ink);
       }
 
+      .setup--error {
+        border-color: rgba(240, 120, 120, 0.35);
+      }
+
+      .setup--loading {
+        color: var(--ink);
+      }
+
       @media (max-width: 700px) {
         .dash {
           padding: 100px 20px 80px;
@@ -273,19 +281,37 @@
         var key = params.get("key") || "";
         var setupEl = document.getElementById("setup");
         var contentEl = document.getElementById("content");
+        var loaded = false;
 
         var baseInput = document.getElementById("tag-base");
-        baseInput.value = window.location.origin + "/index.html";
+        var siteBase = window.location.pathname.replace(
+          /analytics\/dashboard\.html.*$/,
+          "index.html"
+        );
+        baseInput.value = window.location.origin + siteBase;
+
+        function showSetup(message, isError) {
+          setupEl.hidden = false;
+          setupEl.className = "setup" + (isError ? " setup--error" : " setup--loading");
+          setupEl.innerHTML = message;
+        }
 
         function renderBars(container, map) {
-          var entries = Object.keys(map)
+          var entries = Object.keys(map || {})
             .map(function (k) {
               return { key: k, val: map[k] };
             })
             .sort(function (a, b) {
               return b.val - a.val;
             });
-          var max = entries[0] ? entries[0].val : 1;
+
+          if (!entries.length) {
+            container.innerHTML =
+              '<p class="dash__sub" style="margin:0">No data yet.</p>';
+            return;
+          }
+
+          var max = entries[0].val || 1;
           container.innerHTML = entries
             .map(function (row) {
               var pct = Math.round((row.val / max) * 100);
@@ -307,21 +333,33 @@
         }
 
         window.__donotposeDashboard = function (data) {
-          if (data.error) {
-            setupEl.hidden = false;
-            setupEl.innerHTML =
-              "<p>Could not load stats. Check your dashboard key and endpoint.</p>";
+          loaded = true;
+          setupEl.hidden = true;
+
+          if (!data || data.error) {
+            showSetup(
+              "<p><strong>Could not load stats.</strong></p>" +
+                "<p>Check that <code>DASHBOARD_KEY</code> in Google Apps Script matches <code>dashboardKey</code> in <code>config.js</code>.</p>",
+              true
+            );
             return;
           }
 
           contentEl.hidden = false;
-          var stats = data.stats;
+          var stats = data.stats || {
+            totalViews: 0,
+            uniqueVisitors: 0,
+            byTag: {},
+            byPath: {},
+            byReferrer: {},
+          };
+
           document.getElementById("stat-views").textContent = stats.totalViews;
           document.getElementById("stat-visitors").textContent =
             stats.uniqueVisitors;
 
           var tagged = 0;
-          Object.keys(stats.byTag).forEach(function (t) {
+          Object.keys(stats.byTag || {}).forEach(function (t) {
             if (t !== "(direct)") tagged += stats.byTag[t];
           });
           document.getElementById("stat-tagged").textContent = tagged;
@@ -330,33 +368,41 @@
           renderBars(document.getElementById("by-path"), stats.byPath);
           renderBars(document.getElementById("by-ref"), stats.byReferrer);
 
-          document.getElementById("events").innerHTML = data.events
-            .slice(0, 30)
-            .map(function (ev) {
-              return (
-                '<div class="event-row">' +
-                "<span>" +
-                (ev.timestamp || "").replace("T", " ").slice(0, 19) +
-                "</span>" +
-                "<span>" +
-                ev.event +
-                "</span>" +
-                "<span><strong>" +
-                (ev.path || ev.page) +
-                "</strong>" +
-                (ev.tag ? " · tag: " + ev.tag : "") +
-                "</span>" +
-                "</div>"
-              );
-            })
-            .join("");
+          var events = data.events || [];
+          document.getElementById("events").innerHTML = events.length
+            ? events
+                .slice(0, 30)
+                .map(function (ev) {
+                  return (
+                    '<div class="event-row">' +
+                    "<span>" +
+                    String(ev.timestamp || "")
+                      .replace("T", " ")
+                      .slice(0, 19) +
+                    "</span>" +
+                    "<span>" +
+                    ev.event +
+                    "</span>" +
+                    "<span><strong>" +
+                    (ev.path || ev.page) +
+                    "</strong>" +
+                    (ev.tag ? " · tag: " + ev.tag : "") +
+                    "</span>" +
+                    "</div>"
+                  );
+                })
+                .join("")
+            : '<p class="dash__sub" style="margin:0">No events logged yet. Visit your site, then refresh.</p>';
         };
 
         function buildTagLink() {
           var base = baseInput.value.trim() || window.location.origin;
           var tag = document.getElementById("tag-name").value.trim();
           var url = base.split("?")[0];
-          url += (url.indexOf("?") === -1 ? "?" : "&") + "tag=" + encodeURIComponent(tag || "instagram");
+          url +=
+            (url.indexOf("?") === -1 ? "?" : "&") +
+            "tag=" +
+            encodeURIComponent(tag || "instagram");
           document.getElementById("tag-output").textContent = url;
           return url;
         }
@@ -371,26 +417,70 @@
         });
 
         if (!cfg.endpoint) {
-          setupEl.hidden = false;
+          showSetup(
+            "<p><strong>Endpoint not set.</strong></p>" +
+              "<p>Paste your Google Apps Script Web App URL into <code>analytics/config.js</code>.</p>",
+            true
+          );
           return;
         }
 
         if (key !== cfg.dashboardKey) {
-          setupEl.hidden = false;
-          setupEl.innerHTML =
-            "<p>Add <code>?key=" +
-            (cfg.dashboardKey || "your-key") +
-            "</code> to this page URL to view stats.</p>";
+          showSetup(
+            "<p><strong>Dashboard key required.</strong></p>" +
+              "<p>Open this page as <code>analytics/dashboard.html?key=" +
+              (cfg.dashboardKey || "your-key") +
+              "</code></p>",
+            true
+          );
           return;
         }
 
+        showSetup("<p>Loading analytics…</p>", false);
+
         var script = document.createElement("script");
-        script.src =
+        var url =
           cfg.endpoint +
           "?key=" +
           encodeURIComponent(key) +
           "&callback=__donotposeDashboard";
+
+        script.src = url;
+        script.onerror = function () {
+          showSetup(
+            "<p><strong>Could not reach your analytics endpoint.</strong></p>" +
+              "<p>Your Google Apps Script is likely not deployed publicly. Fix:</p>" +
+              "<ol>" +
+              "<li>Open your Apps Script project</li>" +
+              "<li><strong>Deploy → New deployment</strong></li>" +
+              "<li>Type: <strong>Web app</strong></li>" +
+              "<li>Execute as: <strong>Me</strong></li>" +
+              "<li>Who has access: <strong>Anyone</strong></li>" +
+              "<li>Copy the <strong>new</strong> URL into <code>config.js</code></li>" +
+              "<li>Push to GitHub and wait ~1 min</li>" +
+              "</ol>" +
+              "<p>Test in browser: <a href=\"" +
+              cfg.endpoint +
+              "?key=" +
+              encodeURIComponent(key) +
+              "\" target=\"_blank\" rel=\"noreferrer\">open endpoint</a> — you should see JSON, not a Google sign-in page.</p>" +
+              "<p><strong>Seeing “Google hasn’t verified this app”?</strong> That’s normal for your own script. Click <strong>Advanced</strong> → <strong>Go to … (unsafe)</strong> once while signed in as the owner. Site visitors won’t see this when tracking page views.</p>",
+            true
+          );
+        };
+
         document.body.appendChild(script);
+
+        setTimeout(function () {
+          if (!loaded) {
+            showSetup(
+              "<p><strong>Timed out loading stats.</strong></p>" +
+                "<p>Same fix as above: redeploy Apps Script with <strong>Who has access: Anyone</strong>, then update the URL in <code>config.js</code>.</p>" +
+                "<p>If you just redeployed, the URL changes every time — paste the latest one.</p>",
+              true
+            );
+          }
+        }, 10000);
       })();
     </script>
   </body>
