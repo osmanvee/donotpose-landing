@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics — DoNotPose™</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      .dash {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 120px 34px 100px;
+      }
+
+      .dash h1 {
+        margin: 0 0 8px;
+        font-family: var(--serif);
+        font-size: clamp(2.4rem, 6vw, 4rem);
+        letter-spacing: -0.04em;
+        line-height: 0.95;
+      }
+
+      .dash__sub {
+        margin: 0 0 40px;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .dash__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 48px;
+      }
+
+      .stat {
+        padding: 18px;
+        border: 1px solid var(--line);
+      }
+
+      .stat__label {
+        color: var(--muted);
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .stat__value {
+        margin-top: 8px;
+        font-family: var(--serif);
+        font-size: 2rem;
+        letter-spacing: -0.03em;
+      }
+
+      .dash__block {
+        margin-bottom: 40px;
+      }
+
+      .dash__block h2 {
+        margin: 0 0 16px;
+        font-size: 0.62rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .bar-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        font-size: 0.78rem;
+      }
+
+      .bar-row__track {
+        grid-column: 1 / -1;
+        height: 3px;
+        background: rgba(240, 238, 233, 0.08);
+      }
+
+      .bar-row__fill {
+        height: 100%;
+        background: var(--ink);
+      }
+
+      .event-list {
+        border-top: 1px solid var(--line);
+      }
+
+      .event-row {
+        display: grid;
+        grid-template-columns: 140px 80px 1fr;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+
+      .event-row strong {
+        color: var(--ink);
+        font-weight: 400;
+      }
+
+      .tag-builder {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .tag-builder input {
+        flex: 1;
+        min-width: 140px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 0.78rem;
+      }
+
+      .tag-builder output {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        font-size: 0.72rem;
+        word-break: break-all;
+        color: var(--muted);
+      }
+
+      .setup {
+        padding: 20px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.6;
+      }
+
+      .setup code {
+        color: var(--ink);
+      }
+
+      @media (max-width: 700px) {
+        .dash {
+          padding: 100px 20px 80px;
+        }
+
+        .dash__grid {
+          grid-template-columns: 1fr;
+        }
+
+        .event-row {
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="../index.html" aria-label="DoNotPose home">
+        <img
+          src="../assets/donotpose-logo-white.svg"
+          alt="DoNotPose"
+          width="801"
+          height="183"
+        />
+      </a>
+      <a
+        class="contact-btn"
+        href="https://form.typeform.com/to/Ouv8cyXo"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Contact
+      </a>
+    </header>
+
+    <main class="dash">
+      <h1>Analytics</h1>
+      <p class="dash__sub">Traffic, tags, and recent activity.</p>
+
+      <div id="setup" class="setup" hidden>
+        <p>
+          Connect your tracker: copy <code>analytics/setup.gs</code> into Google
+          Apps Script, deploy as a Web App, then paste the URL into
+          <code>analytics/config.js</code> → <code>endpoint</code>.
+        </p>
+        <p>
+          Open this page with
+          <code>?key=your-dashboard-key</code> (set in both config files).
+        </p>
+      </div>
+
+      <div id="content" hidden>
+        <div class="dash__grid">
+          <div class="stat">
+            <p class="stat__label">Page views</p>
+            <p class="stat__value" id="stat-views">—</p>
+          </div>
+          <div class="stat">
+            <p class="stat__label">Unique visitors</p>
+            <p class="stat__value" id="stat-visitors">—</p>
+          </div>
+          <div class="stat">
+            <p class="stat__label">Tagged visits</p>
+            <p class="stat__value" id="stat-tagged">—</p>
+          </div>
+        </div>
+
+        <div class="dash__block">
+          <h2>Tag link builder</h2>
+          <p class="dash__sub" style="margin-bottom: 12px">
+            Share links like <code>?tag=instagram</code> to see where traffic
+            comes from.
+          </p>
+          <div class="tag-builder">
+            <input id="tag-base" type="text" placeholder="Site URL" />
+            <input id="tag-name" type="text" placeholder="Tag (e.g. instagram)" />
+            <button type="button" class="contact-btn" id="tag-copy">
+              Copy link
+            </button>
+            <output id="tag-output"></output>
+          </div>
+        </div>
+
+        <div class="dash__block">
+          <h2>By tag</h2>
+          <div class="bar-list" id="by-tag"></div>
+        </div>
+
+        <div class="dash__block">
+          <h2>By page</h2>
+          <div class="bar-list" id="by-path"></div>
+        </div>
+
+        <div class="dash__block">
+          <h2>By referrer</h2>
+          <div class="bar-list" id="by-ref"></div>
+        </div>
+
+        <div class="dash__block">
+          <h2>Recent activity</h2>
+          <div class="event-list" id="events"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <span>DoNotPose™</span>
+    </footer>
+
+    <script src="config.js"></script>
+    <script>
+      (function () {
+        var cfg = window.DONOTPOSE_ANALYTICS || {};
+        var params = new URLSearchParams(window.location.search);
+        var key = params.get("key") || "";
+        var setupEl = document.getElementById("setup");
+        var contentEl = document.getElementById("content");
+
+        var baseInput = document.getElementById("tag-base");
+        baseInput.value = window.location.origin + "/index.html";
+
+        function renderBars(container, map) {
+          var entries = Object.keys(map)
+            .map(function (k) {
+              return { key: k, val: map[k] };
+            })
+            .sort(function (a, b) {
+              return b.val - a.val;
+            });
+          var max = entries[0] ? entries[0].val : 1;
+          container.innerHTML = entries
+            .map(function (row) {
+              var pct = Math.round((row.val / max) * 100);
+              return (
+                '<div class="bar-row">' +
+                "<span>" +
+                row.key +
+                "</span>" +
+                "<span>" +
+                row.val +
+                "</span>" +
+                '<div class="bar-row__track"><div class="bar-row__fill" style="width:' +
+                pct +
+                '%"></div></div>' +
+                "</div>"
+              );
+            })
+            .join("");
+        }
+
+        window.__donotposeDashboard = function (data) {
+          if (data.error) {
+            setupEl.hidden = false;
+            setupEl.innerHTML =
+              "<p>Could not load stats. Check your dashboard key and endpoint.</p>";
+            return;
+          }
+
+          contentEl.hidden = false;
+          var stats = data.stats;
+          document.getElementById("stat-views").textContent = stats.totalViews;
+          document.getElementById("stat-visitors").textContent =
+            stats.uniqueVisitors;
+
+          var tagged = 0;
+          Object.keys(stats.byTag).forEach(function (t) {
+            if (t !== "(direct)") tagged += stats.byTag[t];
+          });
+          document.getElementById("stat-tagged").textContent = tagged;
+
+          renderBars(document.getElementById("by-tag"), stats.byTag);
+          renderBars(document.getElementById("by-path"), stats.byPath);
+          renderBars(document.getElementById("by-ref"), stats.byReferrer);
+
+          document.getElementById("events").innerHTML = data.events
+            .slice(0, 30)
+            .map(function (ev) {
+              return (
+                '<div class="event-row">' +
+                "<span>" +
+                (ev.timestamp || "").replace("T", " ").slice(0, 19) +
+                "</span>" +
+                "<span>" +
+                ev.event +
+                "</span>" +
+                "<span><strong>" +
+                (ev.path || ev.page) +
+                "</strong>" +
+                (ev.tag ? " · tag: " + ev.tag : "") +
+                "</span>" +
+                "</div>"
+              );
+            })
+            .join("");
+        };
+
+        function buildTagLink() {
+          var base = baseInput.value.trim() || window.location.origin;
+          var tag = document.getElementById("tag-name").value.trim();
+          var url = base.split("?")[0];
+          url += (url.indexOf("?") === -1 ? "?" : "&") + "tag=" + encodeURIComponent(tag || "instagram");
+          document.getElementById("tag-output").textContent = url;
+          return url;
+        }
+
+        document.getElementById("tag-name").addEventListener("input", buildTagLink);
+        baseInput.addEventListener("input", buildTagLink);
+        buildTagLink();
+
+        document.getElementById("tag-copy").addEventListener("click", function () {
+          var url = buildTagLink();
+          navigator.clipboard.writeText(url).catch(function () {});
+        });
+
+        if (!cfg.endpoint) {
+          setupEl.hidden = false;
+          return;
+        }
+
+        if (key !== cfg.dashboardKey) {
+          setupEl.hidden = false;
+          setupEl.innerHTML =
+            "<p>Add <code>?key=" +
+            (cfg.dashboardKey || "your-key") +
+            "</code> to this page URL to view stats.</p>";
+          return;
+        }
+
+        var script = document.createElement("script");
+        script.src =
+          cfg.endpoint +
+          "?key=" +
+          encodeURIComponent(key) +
+          "&callback=__donotposeDashboard";
+        document.body.appendChild(script);
+      })();
+    </script>
+  </body>
+</html>
