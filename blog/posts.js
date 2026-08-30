@@ -10,18 +10,12 @@
  *   excerpt — short line for the homepage list
  */
 window.DONOTPOSE_POSTS = [
+
   {
-    slug: "do-not-pose-is-live",
-    date: "August 29 2026",
-    title: "DoNotPose is live",
-    excerpt:
-      "The site is up. Interviews, field notes, and whatever happens next — all in one place.",
-  },
-  {
-    slug: "field-notes-toronto",
+    slug: "Notes - August 2026",
     date: "August 7 2026",
-    title: "Field notes from Toronto",
+    title: "#1 Notes",
     excerpt:
-      "First trip outside Montreal. Met Victor outside a photography exhibit — cigarette, film camera, no small talk.",
+      "Motivation, and fasciation with photographers.",
   },
 ];
