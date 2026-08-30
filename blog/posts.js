@@ -12,7 +12,7 @@
 window.DONOTPOSE_POSTS = [
 
   {
-    slug: "Notes - August 2026",
+    slug: "notes-august-2026",
     date: "August 7 2026",
     title: "#1 Notes",
     excerpt:
