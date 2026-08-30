@@ -126,6 +126,11 @@ a {
   border: 1px solid var(--line);
   background: rgba(41, 41, 41, 0.42);
   backdrop-filter: blur(8px);
+  transition:
+    border-color 280ms ease,
+    background-color 280ms ease,
+    color 280ms ease,
+    box-shadow 280ms ease;
 }
 
 .instagram.hero__cta {
@@ -134,9 +139,18 @@ a {
 }
 
 .hero__cta:hover {
-  color: #1d1d1d;
-  background: var(--ink);
-  border-color: var(--ink);
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    rgba(131, 58, 180, 0.55),
+    rgba(193, 53, 132, 0.5),
+    rgba(220, 39, 67, 0.45)
+  );
+  border-color: rgba(240, 120, 160, 0.9);
+  box-shadow:
+    0 0 18px rgba(193, 53, 132, 0.55),
+    0 0 36px rgba(131, 58, 180, 0.35),
+    inset 0 0 14px rgba(255, 140, 180, 0.12);
 }
 
 .hero {
@@ -767,6 +781,10 @@ footer {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .hero__cta:hover {
+    box-shadow: none !important;
   }
 
   *,
