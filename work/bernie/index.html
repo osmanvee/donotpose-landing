@@ -86,6 +86,16 @@
     </section>
 
     <main class="piece">
+      <div class="piece__video" data-youtube="K007Qfs14Tc">
+        <iframe
+          src="https://www.youtube.com/embed/K007Qfs14Tc?start=1&rel=0"
+          title="Bernie — DoNotPose interview"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+
       <div class="piece__body">
         <p>
           I met Bernie in the heart of Mile-End, a neighbourhood in Montreal known for its art scene.
@@ -101,6 +111,22 @@
     <footer>
       <span>DoNotPose™</span>
     </footer>
+
+    <script>
+      (function () {
+        if (location.protocol !== "file:") return;
+        var wrap = document.querySelector(".piece__video[data-youtube]");
+        if (!wrap) return;
+        var id = wrap.getAttribute("data-youtube");
+        wrap.innerHTML =
+          '<a class="piece__video-open" href="https://www.youtube.com/watch?v=' +
+          id +
+          '" target="_blank" rel="noreferrer">' +
+          '<img src="./assets/bernie-thumb-opt.jpg" alt="" />' +
+          "<span>Watch on YouTube</span>" +
+          "</a>";
+      })();
+    </script>
     <script src="../../analytics/config.js"></script>
     <script src="../../analytics/track.js"></script>
   </body>

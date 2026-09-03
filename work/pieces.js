@@ -2,7 +2,7 @@
  * DoNotPose work catalog
  * Add a new object to this array to publish a piece.
  * Remove an object to take it off the homepage.
- * Order here = order on the page.
+ * Order here = order on the page (newest / featured first).
  *
  * Fields:
  *   number     — shown as "1. Xavier"
@@ -11,16 +11,18 @@
  *   profession — line under the title
  *   slug       — folder name under work/
  *   image      — path from the site root
+ *   latest     — optional; shows "Latest" on the thumbnail
  */
 window.DONOTPOSE_PIECES = [
   {
-    slug: "xavier",
-    number: "1",
-    name: "Xavier",
-    date: "August 6 2026",
-    profession: "Motion Photographer",
-    image: "work/xavier/assets/xavier-thumbnail-opt.jpg",
-    alt: "Xavier",
+    slug: "victor",
+    number: "3",
+    name: "Victor",
+    date: "August 29 2026",
+    profession: "Film-only photographer",
+    image: "work/victor/assets/victor-mora-thumbnail-opt.jpg",
+    alt: "Victor",
+    latest: true,
   },
   {
     slug: "bernie",
@@ -32,12 +34,12 @@ window.DONOTPOSE_PIECES = [
     alt: "Bernie",
   },
   {
-    slug: "victor",
-    number: "3",
-    name: "Victor",
-    date: "August 29 2026",
-    profession: "Film-only photographer",
-    image: "work/victor/assets/victor-mora-thumbnail-opt.jpg",
-    alt: "Victor",
+    slug: "xavier",
+    number: "1",
+    name: "Xavier",
+    date: "August 6 2026",
+    profession: "Motion Photographer",
+    image: "work/xavier/assets/xavier-thumbnail-opt.jpg",
+    alt: "Xavier",
   },
 ];

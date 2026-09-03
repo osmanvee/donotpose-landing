@@ -84,6 +84,16 @@
     </section>
 
     <main class="piece">
+      <div class="piece__video" data-youtube="3FKK_qmdnhM">
+        <iframe
+          src="https://www.youtube.com/embed/3FKK_qmdnhM?start=1&rel=0"
+          title="Victor — DoNotPose interview"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+
       <div class="piece__body">
         <p>
           Victor shoots film only — street, liminal spaces, and urban objects.
@@ -100,6 +110,22 @@
     <footer>
       <span>DoNotPose™</span>
     </footer>
+
+    <script>
+      (function () {
+        if (location.protocol !== "file:") return;
+        var wrap = document.querySelector(".piece__video[data-youtube]");
+        if (!wrap) return;
+        var id = wrap.getAttribute("data-youtube");
+        wrap.innerHTML =
+          '<a class="piece__video-open" href="https://www.youtube.com/watch?v=' +
+          id +
+          '" target="_blank" rel="noreferrer">' +
+          '<img src="./assets/victor-mora-thumbnail-opt.jpg" alt="" />' +
+          "<span>Watch on YouTube</span>" +
+          "</a>";
+      })();
+    </script>
     <script src="../../analytics/config.js"></script>
     <script src="../../analytics/track.js"></script>
   </body>

@@ -315,10 +315,24 @@ a {
 }
 
 .story__image {
+  position: relative;
   display: block;
   overflow: hidden;
   background: #1f1f1f;
   aspect-ratio: 4 / 5;
+}
+
+.story__latest {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: 12px;
+  padding: 6px 10px;
+  background: var(--ink);
+  color: #1d1d1d;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .story__image img {

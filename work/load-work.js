@@ -17,6 +17,9 @@
         title +
         '">' +
         '<span class="story__image">' +
+        (piece.latest
+          ? '<span class="story__latest">Latest</span>'
+          : "") +
         '<img src="' +
         piece.image +
         '" alt="' +
