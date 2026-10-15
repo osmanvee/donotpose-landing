@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="../../favicon.png" type="image/png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>3. Brett— DoNotPose™</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="logo" href="../../index.html" aria-label="DoNotPose home">
+        <img
+          src="../../assets/donotpose-logo-white.svg"
+          alt="DoNotPose"
+          width="801"
+          height="183"
+        />
+      </a>
+      <a
+        class="contact-btn"
+        href="https://form.typeform.com/to/Ouv8cyXo"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Contact
+      </a>
+    </header>
+
+    <section class="piece-banner">
+      <img
+        class="piece-banner__image"
+        src="./assets/brett-thumbnail-opt.png"
+        alt=""
+        width="900"
+        height="600"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <div class="piece-banner__gradient" aria-hidden="true"></div>
+      <div class="piece-banner__content">
+        <p class="piece__eyebrow">October 15 2026 · Interview 04</p>
+        <h1 class="piece__title">Brett Paulin</h1>
+        <p class="piece__role">Furniture and Interior Designer</p>
+
+        <div class="piece__actions">
+          <a
+            class="piece__action"
+            href="https://www.instagram.com/brettpaulindesign/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17.4" cy="6.7" r="1" fill="currentColor" stroke="none"></circle>
+            </svg>
+            <span>@brettpaulindesign</span>
+          </a>
+          <a
+            class="piece__action"
+            href="https://www.google.com/maps/search/?api=1&query=Toronto%2C%20Canada"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"
+                fill="none"
+              ></path>
+              <circle cx="12" cy="10" r="2.5" fill="none"></circle>
+            </svg>
+            <span>Toronto, Canada</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <main class="piece">
+      <div class="piece__video" data-youtube="3FKK_qmdnhM">
+        <iframe
+          src="https://www.youtube.com/watch?v=9FebmAyuyV0&t=6s"
+          title="Brett — DoNotPose interview"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div class="piece__body">
+        <p>
+          Brett Paulin is a furniture and interior designer based in Toronto. He also makes music. 
+          His work revolves around wood and leather. He crafts welcoming and warm spaces for restaurants and cafés. 
+        </p>
+      </div>
+
+      <p class="piece__back">
+        <a href="../../index.html#stories">← All interviews</a>
+      </p>
+    </main>
+
+    <footer>
+      <span>DoNotPose™</span>
+    </footer>
+
+    <script>
+      (function () {
+        if (location.protocol !== "file:") return;
+        var wrap = document.querySelector(".piece__video[data-youtube]");
+        if (!wrap) return;
+        var id = wrap.getAttribute("data-youtube");
+        wrap.innerHTML =
+          '<a class="piece__video-open" href="https://www.youtube.com/watch?v=' +
+          id +
+          '" target="_blank" rel="noreferrer">' +
+          '<img src="./assets/victor-mora-thumbnail-opt.jpg" alt="" />' +
+          "<span>Watch on YouTube</span>" +
+          "</a>";
+      })();
+    </script>
+    <script src="../../analytics/config.js"></script>
+    <script src="../../analytics/track.js"></script>
+  </body>
+</html>

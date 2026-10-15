@@ -15,6 +15,16 @@
  */
 window.DONOTPOSE_PIECES = [
   {
+    slug: "brett",
+    number: "4",
+    name: "Brett",
+    date: "October 15 2026",
+    profession: "Furniture Designer",
+    image: "work/brett/assets/brett-thumbnail-opt.png",
+    alt: "Brett Paulin",
+    latest: true,
+  },
+  {
     slug: "victor",
     number: "3",
     name: "Victor",
@@ -22,7 +32,6 @@ window.DONOTPOSE_PIECES = [
     profession: "Film-only photographer",
     image: "work/victor/assets/victor-mora-thumbnail-opt.jpg",
     alt: "Victor",
-    latest: true,
   },
   {
     slug: "bernie",
